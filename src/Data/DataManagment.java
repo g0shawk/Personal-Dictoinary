@@ -145,17 +145,18 @@ public class DataManagment {
 		String sql = "SELECT * FROM " + tableName + " WHERE Word = '" + expression +"'" + " AND Translation = '" + transaltion + "'";
 		Integer id;
 			connect();	
+			boolean exe = true;
 			try {
 				Statement stm = conn.createStatement();
 				ResultSet rs = stm.executeQuery(sql);
 			    // Returns only one ID, therefore this method deletes only one record in the database
 				id = rs.getInt("ID");
-				stm.execute("DELETE FROM " + tableName + " WHERE ID = '" + id.toString() +"'");
+				exe = stm.execute("DELETE FROM " + tableName + " WHERE ID = '" + id.toString() +"'");
 			} catch (SQLException e) {
 				e.printStackTrace();
 				return false;
 			}
-		if(disconnect())
+		if(disconnect() && !exe)
 			return true;
 		else 
 			return false;

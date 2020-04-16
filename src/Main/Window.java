@@ -192,7 +192,7 @@ public class Window {
 					boolean del  = DataManagment.delete_entry(delExp, delTran, selectedLanguage);
 					
 					if( del == false) {
-						JOptionPane.showMessageDialog(frame, "Editing Error !", "Error !",
+						JOptionPane.showMessageDialog(frame, "Deletion Error !", "Error !",
 								JOptionPane.ERROR_MESSAGE);
 					}
 					else {
@@ -285,7 +285,7 @@ public class Window {
 		}
 	}
 
-	private class EditingExpression implements ActionListener {
+	private class EditingExpression implements ActionListener {//////
 		public void actionPerformed(ActionEvent e) {
 			if (selectedLanguage == null) {
 				JOptionPane.showMessageDialog(frame, "Choose the Dictionary !", "Warning !",
