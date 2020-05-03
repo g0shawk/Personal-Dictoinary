@@ -18,6 +18,7 @@ import com.darkprograms.speech.recognizer.GSpeechDuplex;
 import com.darkprograms.speech.recognizer.GSpeechResponseListener;
 import com.darkprograms.speech.recognizer.GoogleResponse;
 
+import Data.DataManagment;
 import Insertion.InputWindow;
 import net.sourceforge.javaflacencoder.FLACFileWriter;
 import javax.swing.GroupLayout;
@@ -48,7 +49,8 @@ public class GoogleSpeechRecognitionSimple {
 	private String motherLanguageCode;
 	private String finalOutput;
 	
-	public  GoogleSpeechRecognitionSimple(JFrame frameParent, String selectedLanguage,String languageCode, int fontSize, JTextField message) {
+	public  GoogleSpeechRecognitionSimple(JFrame frameParent, String selectedLanguage,String languageCode, int fontSize, 
+			JTextField message) {
 		
 		scrollPane.setViewportView(response);
 		
@@ -188,6 +190,8 @@ public class GoogleSpeechRecognitionSimple {
 		@Override
 			public void actionPerformed(ActionEvent e) {
 				motherLanguageCode = JOptionPane.showInputDialog(frame, "Insert the ISO 639-1 language code ! ");
+		    	  if(DataManagment.insertLangCodeIntoCODE_TABLE(selectedLanguage, motherLanguageCode, 2) == false)
+		      	     JOptionPane.showMessageDialog(frame, "Insertion Error !", null, JOptionPane.ERROR_MESSAGE);
 			      if (motherLanguageCode == null)
 			    	  motherLanguage.setText("Mother Language CODE");
 			      
@@ -200,6 +204,11 @@ public class GoogleSpeechRecognitionSimple {
 	}
 	
 	public void run(){
+		motherLanguageCode = DataManagment.readCODES(selectedLanguage)[1];
+		
+		if(motherLanguageCode != null && motherLanguageCode.length() == 2)
+		   motherLanguage.setText(motherLanguageCode);
+			
 		frame.setVisible(true);
 		duplex.setLanguage(languageCode);
 		frame.setDefaultCloseOperation(2);

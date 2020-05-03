@@ -45,7 +45,7 @@ import java.awt.Dimension;
 
 
 public class Window {
-	private final String version = "Personal Dictionary v1.0 beta";
+	private final String version = "Personal Dictionary v1.1 ";
 	private String selectedLanguage = null;
 	private JFrame frame;
 	private JTextField searchText;
@@ -137,6 +137,15 @@ public class Window {
 			if (DataManagment.languageList().size() > 0) {
 				selectedLanguage = ((JComboBox<?>) e.getSource()).getSelectedItem().toString();
 				message.setText(selectedLanguage);
+				
+				languageCode = DataManagment.readCODES(selectedLanguage)[0];
+				
+				if(languageCode != null && languageCode.length() == 2)
+				 languageCodeBtn.setText(languageCode);
+				
+				else
+				 languageCodeBtn.setText("CODE");
+				
 			} else {
 				selectedLanguage = null;
 			}
@@ -497,7 +506,7 @@ public class Window {
 				JOptionPane.showMessageDialog(frame, "Choose the Dictionary !", "Warning !",
 						JOptionPane.WARNING_MESSAGE);
 				
-			else if (languageCode == null) {
+			else if (languageCode == null || languageCode.equals("null")) {
 				languageCode = JOptionPane.showInputDialog(frame, "Insert the language code according\n" + "to the ISO 639-1 standard");
 				if (languageCode != null) {
 					if (languageCode.length() == 2 && languageCode.contains(" ") == false)
@@ -525,15 +534,23 @@ public class Window {
 	
 	private class LanguageCode implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			  languageCode = JOptionPane.showInputDialog(frame, "Insert the ISO 639-1 language code ! ");
+			 // languageCode = JOptionPane.showInputDialog(frame, "Insert the ISO 639-1 language code ! ");
+			if(selectedLanguage == null)
+		    	  JOptionPane.showMessageDialog(frame, "Choose the Dictionary !", "Warning !",
+							JOptionPane.WARNING_MESSAGE);
+		      else {
+		    	  languageCode = JOptionPane.showInputDialog(frame, "Insert the ISO 639-1 language code ! ");
+		    	  if(DataManagment.insertLangCodeIntoCODE_TABLE(selectedLanguage, languageCode, 1) == false)
+		      	     JOptionPane.showMessageDialog(frame, "Insertion Error !", null, JOptionPane.ERROR_MESSAGE);
+		      }
+			
 		      if (languageCode == null)
 		    	  languageCodeBtn.setText("CODE");
 		      
 		      else if (languageCode.length() == 2 && languageCode.contains(" ") == false)
 				       languageCodeBtn.setText(languageCode);
-		      
 			  else
-				  languageCodeBtn.setText("CODE");
+				  languageCodeBtn.setText("CODE");  
 		}
 	}
 	
