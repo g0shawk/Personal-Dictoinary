@@ -26,7 +26,7 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JScrollPane;
 
-public class GoogleSpeechRecognitionSimple {
+public class GoogleSpeechRecognitionSimple implements Runnable{
 	
 	private final Microphone mic = new Microphone(FLACFileWriter.FLAC);
 	private GSpeechDuplex duplex = new GSpeechDuplex("AIzaSyBOti4mM-6x9WDnZIjIeyEU21OpBXqWBgw");
@@ -49,6 +49,9 @@ public class GoogleSpeechRecognitionSimple {
 	private String motherLanguageCode;
 	private String finalOutput;
 	
+	public JFrame getFrame() {
+		return frame;
+	}
 	public  GoogleSpeechRecognitionSimple(JFrame frameParent, String selectedLanguage,String languageCode, int fontSize, 
 			JTextField message) {
 		
@@ -121,6 +124,7 @@ public class GoogleSpeechRecognitionSimple {
 			insert.setEnabled(false);
 			infoText.setText("Press Record button and speak into the connected microphone.");
 			try {
+				//if(Translation.translateExpression(motherLanguageCode, finalOutput, frameParent))
 				String translated = Translation.translateExpression(motherLanguageCode, finalOutput, frameParent);
 				InputWindow.enter(frameParent, selectedLanguage, fontSize, message, finalOutput, translated);
 			} catch(NullPointerException e) {

@@ -1,4 +1,5 @@
 package Main;
+
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionListener;
@@ -40,9 +41,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
+
 import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.Dimension;
-
 
 public class Window {
 	private final String version = "Personal Dictionary v1.1 ";
@@ -66,6 +67,8 @@ public class Window {
 	private JButton microphone;
 	private String languageCode;
 	private JButton languageCodeBtn;
+	private VoiceInputWindow viw = new VoiceInputWindow();
+
 	/**
 	 * Launch the application.
 	 */
@@ -88,8 +91,7 @@ public class Window {
 	public Window() {
 		initialize();
 	}
-	
-	
+
 	private void mouseListener() {
 		table.addMouseListener(new MouseListener() {
 			public void mouseClicked(MouseEvent e) {
@@ -110,8 +112,7 @@ public class Window {
 			}
 		});
 	}
-	
-	
+
 	private class SmartSearch extends KeyAdapter {
 		public void keyReleased(KeyEvent arg0) {
 			if (selectedLanguage == null) {
@@ -123,7 +124,8 @@ public class Window {
 				row = -1;
 				column = -1;
 				table = new JTable();
-				table = DataManagment.readWantedExpressions(ReplacementApostrophe.replaceApostrophe(searchText.getText()), selectedLanguage);
+				table = DataManagment.readWantedExpressions(
+						ReplacementApostrophe.replaceApostrophe(searchText.getText()), selectedLanguage);
 				TableAutoSizer.resizeCellWidthAndHieght(table, JLabel.LEFT, JLabel.TOP, frame, fontSize);
 				scrollPane.setViewportView(table);
 				message.setText(selectedLanguage);
@@ -137,15 +139,15 @@ public class Window {
 			if (DataManagment.languageList().size() > 0) {
 				selectedLanguage = ((JComboBox<?>) e.getSource()).getSelectedItem().toString();
 				message.setText(selectedLanguage);
-				
+
 				languageCode = DataManagment.readCODES(selectedLanguage)[0];
-				
-				if(languageCode != null && languageCode.length() == 2)
-				 languageCodeBtn.setText(languageCode);
-				
+
+				if (languageCode != null && languageCode.length() == 2)
+					languageCodeBtn.setText(languageCode);
+
 				else
-				 languageCodeBtn.setText("CODE");
-				
+					languageCodeBtn.setText("CODE");
+
 			} else {
 				selectedLanguage = null;
 			}
@@ -197,14 +199,12 @@ public class Window {
 
 					if (tran != null)
 						delTran = tran.toString();
-					
-					boolean del  = DataManagment.delete_entry(delExp, delTran, selectedLanguage);
-					
-					if( del == false) {
-						JOptionPane.showMessageDialog(frame, "Deletion Error !", "Error !",
-								JOptionPane.ERROR_MESSAGE);
-					}
-					else {
+
+					boolean del = DataManagment.delete_entry(delExp, delTran, selectedLanguage);
+
+					if (del == false) {
+						JOptionPane.showMessageDialog(frame, "Deletion Error !", "Error !", JOptionPane.ERROR_MESSAGE);
+					} else {
 						model.removeRow(row);
 						scrollPane.setViewportView(table);
 						row = -1;
@@ -212,11 +212,12 @@ public class Window {
 						message.setText("The expression has been successfully deleted !");
 						BackgroundColorChanger.setBackgroundColor(message, Color.getHSBColor(.33f, .5f, 1.0f), 1);
 					}
-					
+
 				} else {
-					JOptionPane.showMessageDialog(frame, "Select the row or press Reading Dictiorary button!", "Warning !", JOptionPane.WARNING_MESSAGE);
-				  }
-					
+					JOptionPane.showMessageDialog(frame, "Select the row or press Reading Dictiorary button!",
+							"Warning !", JOptionPane.WARNING_MESSAGE);
+				}
+
 			}
 		}
 	}
@@ -325,7 +326,7 @@ public class Window {
 							new1 = ReplacementApostrophe.replaceApostrophe(textField.getText().trim());
 							new2 = ReplacementApostrophe.replaceApostrophe(oldColumnn2);
 							model.setValueAt(new1, row, column);
-							
+
 						}
 						if (column == 2) {
 							new1 = ReplacementApostrophe.replaceApostrophe(oldColumnn1);
@@ -342,22 +343,24 @@ public class Window {
 							scrollPane.setViewportView(table);
 							if (ins == true && del == true) {
 								message.setText("The Expression has been successfully changed !");
-								BackgroundColorChanger.setBackgroundColor(message, Color.getHSBColor(.33f, .5f, 1.0f), 1);
-							}
-							else {
+								BackgroundColorChanger.setBackgroundColor(message, Color.getHSBColor(.33f, .5f, 1.0f),
+										1);
+							} else {
 								JOptionPane.showMessageDialog(frame, "Editing Error !", "Error !",
 										JOptionPane.ERROR_MESSAGE);
 							}
 						}
 					}
-					row = -1; column = -1;
+					row = -1;
+					column = -1;
 				} else if (row != -1 && column == 0)
 					JOptionPane.showMessageDialog(frame, "You cannot edit the first column !", "Warning !",
 							JOptionPane.WARNING_MESSAGE);
 				else {
-					JOptionPane.showMessageDialog(frame, "Select the field !", "Warning !", JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(frame, "Select the field !", "Warning !",
+							JOptionPane.WARNING_MESSAGE);
 				}
-					
+
 			}
 		}
 	}
@@ -473,7 +476,7 @@ public class Window {
 				message.setText("Minimum Font Size = " + fontSize);
 		}
 	}
-	
+
 	private class Listening implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			if (selectedLanguage == null) {
@@ -487,11 +490,12 @@ public class Window {
 					DefaultTableModel model = (DefaultTableModel) table.getModel();
 					String expression = model.getValueAt(row, 1).toString();
 					Sound sound = new Sound(frame);
-					if(InternetConnectionChecker.netIsAvailable()) {
-						if(sound.speak(expression, languageCode) == false)
-							message.setText("An Error has occured !");	
-					}
-					else JOptionPane.showMessageDialog(frame, "No Internet Connection !", "Warning !", JOptionPane.WARNING_MESSAGE);
+					if (InternetConnectionChecker.netIsAvailable()) {
+						if (sound.speak(expression, languageCode) == false)
+							message.setText("An Error has occured !");
+					} else
+						JOptionPane.showMessageDialog(frame, "No Internet Connection !", "Warning !",
+								JOptionPane.WARNING_MESSAGE);
 
 					column = -1;
 				} else
@@ -499,61 +503,84 @@ public class Window {
 			}
 		}
 	}
-	
+
 	private class VoiceInput implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			if (selectedLanguage == null) 
+			
+			System.out.println("Thread " + Thread.activeCount());
+			
+			if (viw.getSpeechRecognition() != null) {
+				System.out.println("isShowing000 " + viw.getSpeechRecognition().getFrame().isShowing());
+				if (viw.getSpeechRecognition().getFrame().isShowing()) {
+					viw.getSpeechRecognition().getFrame().toFront();
+						System.out.println("isShowing " + viw.getSpeechRecognition().getFrame().isShowing());// Must be in front when is clicked
+				}
+				else {
+					viw.voiceInputRunning(frame, selectedLanguage, languageCode, fontSize, message);
+				}
+			}
+
+			else if (selectedLanguage == null)
 				JOptionPane.showMessageDialog(frame, "Choose the Dictionary !", "Warning !",
 						JOptionPane.WARNING_MESSAGE);
-				
+
 			else if (languageCode == null || languageCode.equals("null")) {
-				languageCode = JOptionPane.showInputDialog(frame, "Insert the language code according\n" + "to the ISO 639-1 standard");
+				languageCode = JOptionPane.showInputDialog(frame,
+						"Insert the language code according\n" + "to the ISO 639-1 standard");
 				if (languageCode != null) {
 					if (languageCode.length() == 2 && languageCode.contains(" ") == false)
-					       languageCodeBtn.setText(languageCode);
+						languageCodeBtn.setText(languageCode);
 					else
-					  languageCodeBtn.setText("CODE");
+						languageCodeBtn.setText("CODE");
 				}
-				
-			} else {	
-					GoogleSpeechRecognitionSimple speechRecognition = null;
+			}
+
+			else {
 				try {
-					speechRecognition = new GoogleSpeechRecognitionSimple(frame, selectedLanguage, languageCode,  fontSize, message);
-				}  catch(Exception e1) {
+					viw.setSpeechRecognition(new GoogleSpeechRecognitionSimple(frame, selectedLanguage, languageCode,
+											 fontSize, message));
+					viw.setVoiceWindowThread(new Thread(viw.getSpeechRecognition()));
+
+				} catch (Exception e1) {
 					e1.printStackTrace();
-					JOptionPane.showMessageDialog(frame, "Check out the Microphone Connection !", "Warning !", JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(frame, "Check out the Microphone Connection !", "Warning !",
+												  JOptionPane.WARNING_MESSAGE);
 				}
-				
-					if(InternetConnectionChecker.netIsAvailable()) {		
-						speechRecognition.run();
-					}
-					else JOptionPane.showMessageDialog(frame, "No Internet Connection !", "Warning !", JOptionPane.WARNING_MESSAGE);
-			}	
+
+				if (InternetConnectionChecker.netIsAvailable()) {
+					viw.getVoiceWindowThread().start();
+					viw.setVoiceWindowThread(Thread.currentThread());
+					// System.out.println("A " + speechRecognition.getFrame().isActive());
+				} else
+					JOptionPane.showMessageDialog(frame, "No Internet Connection !", "Warning !",
+							JOptionPane.WARNING_MESSAGE);
+			}
 		}
 	}
-	
+
 	private class LanguageCode implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			 // languageCode = JOptionPane.showInputDialog(frame, "Insert the ISO 639-1 language code ! ");
-			if(selectedLanguage == null)
-		    	  JOptionPane.showMessageDialog(frame, "Choose the Dictionary !", "Warning !",
-							JOptionPane.WARNING_MESSAGE);
-		      else {
-		    	  languageCode = JOptionPane.showInputDialog(frame, "Insert the ISO 639-1 language code ! ");
-		    	  if(DataManagment.insertLangCodeIntoCODE_TABLE(selectedLanguage, languageCode, 1) == false)
-		      	     JOptionPane.showMessageDialog(frame, "Insertion Error !", null, JOptionPane.ERROR_MESSAGE);
-		      }
-			
-		      if (languageCode == null)
-		    	  languageCodeBtn.setText("CODE");
-		      
-		      else if (languageCode.length() == 2 && languageCode.contains(" ") == false)
-				       languageCodeBtn.setText(languageCode);
-			  else
-				  languageCodeBtn.setText("CODE");  
+			// languageCode = JOptionPane.showInputDialog(frame, "Insert the ISO 639-1
+			// language code ! ");
+			if (selectedLanguage == null)
+				JOptionPane.showMessageDialog(frame, "Choose the Dictionary !", "Warning !",
+						JOptionPane.WARNING_MESSAGE);
+			else {
+				languageCode = JOptionPane.showInputDialog(frame, "Insert the ISO 639-1 language code ! ");
+				if (DataManagment.insertLangCodeIntoCODE_TABLE(selectedLanguage, languageCode, 1) == false)
+					JOptionPane.showMessageDialog(frame, "Insertion Error !", null, JOptionPane.ERROR_MESSAGE);
+			}
+
+			if (languageCode == null)
+				languageCodeBtn.setText("CODE");
+
+			else if (languageCode.length() == 2 && languageCode.contains(" ") == false)
+				languageCodeBtn.setText(languageCode);
+			else
+				languageCodeBtn.setText("CODE");
 		}
 	}
-	
+
 	/**
 	 * Initialize the contents of the frame.
 	 */
@@ -570,7 +597,6 @@ public class Window {
 		message.setToolTipText("Messages");
 		message.setEditable(false);
 		message.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-	
 
 		// JPanel initializing
 		JPanel panel = new JPanel();
@@ -649,8 +675,7 @@ public class Window {
 		save = new JButton("Save to .txt");
 		save.setToolTipText("Saves choosen language to .txt file");
 		save.addActionListener(new Saving());
-		
-		
+
 		// Changing font size
 		increaseFont = new JButton("+");
 		increaseFont.setToolTipText("Increase font");
@@ -658,126 +683,126 @@ public class Window {
 		decreaseFont = new JButton("-");
 		decreaseFont.setToolTipText("Decrease font");
 		decreaseFont.addActionListener(new DecreasingFont());
-		
-	
+
 		// Play
 		playButton = new JButton("");
 		playButton.setToolTipText("Play Button");
 		playButton.setIcon(new ImageIcon(".\\Icons\\iconfinder_icon-ios7-play_211801.png"));
 		playButton.addActionListener(new Listening());
-		
+
 		// Microphone
 		microphone = new JButton("");
 		microphone.setToolTipText("Voice Input");
 		microphone.setIcon(new ImageIcon(".\\Icons\\radio.png"));
 		microphone.addActionListener(new VoiceInput());
-		
+
 		// Language Indicator Button
 		languageCodeBtn = new JButton();
 		languageCodeBtn.setText("CODE");
 		languageCodeBtn.setMinimumSize(new Dimension(40, 15));
 		languageCodeBtn.setToolTipText("The Language Code Indicator Button");
 		languageCodeBtn.addActionListener(new LanguageCode());
-		
-		// Layout Settings - automatically 
+
+		// Layout Settings - automatically
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(gl_panel.createParallelGroup(Alignment.LEADING).addComponent(scrollPane,
 				GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE));
 		gl_panel.setVerticalGroup(gl_panel.createParallelGroup(Alignment.LEADING).addComponent(scrollPane,
 				GroupLayout.DEFAULT_SIZE, 474, Short.MAX_VALUE));
-		
+
 		panel.setLayout(gl_panel);
-		
-		
-		
-		
+
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
-		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(10)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
-						.addComponent(deleteAllDictionaries, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(delete, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(createDictionary, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.LEADING).addGroup(groupLayout
+				.createSequentialGroup().addGap(10)
+				.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
+						.addComponent(deleteAllDictionaries, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE,
+								GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(delete, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE,
+								Short.MAX_VALUE)
+						.addComponent(createDictionary, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE,
+								GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 						.addComponent(comboBox, Alignment.TRAILING, 0, 139, Short.MAX_VALUE)
 						.addComponent(searchText, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 139, Short.MAX_VALUE)
-						.addComponent(readDictionary, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(insertExpression, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 139, Short.MAX_VALUE)
-						.addComponent(deleteExpression, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 139, Short.MAX_VALUE)
-						.addComponent(editExpression, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 139, Short.MAX_VALUE)
+						.addComponent(readDictionary, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE,
+								GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(insertExpression, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 139,
+								Short.MAX_VALUE)
+						.addComponent(deleteExpression, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 139,
+								Short.MAX_VALUE)
+						.addComponent(editExpression, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 139,
+								Short.MAX_VALUE)
+						.addGroup(groupLayout.createSequentialGroup().addComponent(increaseFont)
+								.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(decreaseFont))
 						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(increaseFont)
-							.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-							.addComponent(decreaseFont))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(playButton, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-							.addComponent(microphone, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE)))
-					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(6)
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addGroup(groupLayout.createSequentialGroup()
-									.addComponent(clr)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(message, GroupLayout.DEFAULT_SIZE, 423, Short.MAX_VALUE)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(languageCodeBtn, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(save, GroupLayout.PREFERRED_SIZE, 102, GroupLayout.PREFERRED_SIZE))
+								.addComponent(playButton, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE)
+								.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(microphone, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE)))
+				.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING).addGroup(groupLayout
+						.createSequentialGroup().addGap(6)
+						.addGroup(groupLayout.createParallelGroup(Alignment.LEADING).addGroup(groupLayout
+								.createSequentialGroup().addComponent(clr).addPreferredGap(ComponentPlacement.RELATED)
+								.addComponent(message, GroupLayout.DEFAULT_SIZE, 423, Short.MAX_VALUE)
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addComponent(languageCodeBtn, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+										GroupLayout.PREFERRED_SIZE)
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addComponent(save, GroupLayout.PREFERRED_SIZE, 102, GroupLayout.PREFERRED_SIZE))
 								.addComponent(panel, GroupLayout.DEFAULT_SIZE, 637, Short.MAX_VALUE)))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
-								.addComponent(restore, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(backup, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE))))
-					.addContainerGap())
-		);
-		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(11)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(2)
-							.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addGap(73)
-							.addComponent(searchText, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
-							.addGap(59)
-							.addComponent(readDictionary)
-							.addGap(14)
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addComponent(playButton, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)
-								.addComponent(microphone, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE))
-							.addGap(37)
-							.addComponent(insertExpression)
-							.addGap(6)
-							.addComponent(deleteExpression)
-							.addGap(6)
-							.addComponent(editExpression)
-							.addGap(27)
-							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(increaseFont)
-								.addComponent(decreaseFont)))
-						.addComponent(panel, GroupLayout.DEFAULT_SIZE, 476, Short.MAX_VALUE))
-					.addGap(6)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(createDictionary, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)
-						.addComponent(backup, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(delete, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)
-						.addComponent(restore, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE))
-					.addGap(7)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(deleteAllDictionaries, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)
-						.addComponent(clr, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)
-						.addComponent(message, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)
-						.addComponent(save, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)
-						.addComponent(languageCodeBtn, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE))
-					.addGap(10))
-		);
+						.addGroup(groupLayout.createSequentialGroup().addPreferredGap(ComponentPlacement.RELATED)
+								.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
+										.addComponent(restore, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE,
+												GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+										.addComponent(backup, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 101,
+												Short.MAX_VALUE))))
+				.addContainerGap()));
+		groupLayout
+				.setVerticalGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup().addGap(11).addGroup(groupLayout
+								.createParallelGroup(
+										Alignment.LEADING)
+								.addGroup(groupLayout.createSequentialGroup().addGap(2)
+										.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+												GroupLayout.PREFERRED_SIZE)
+										.addGap(73)
+										.addComponent(searchText, GroupLayout.PREFERRED_SIZE, 23,
+												GroupLayout.PREFERRED_SIZE)
+										.addGap(59).addComponent(readDictionary).addGap(14)
+										.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+												.addComponent(playButton, GroupLayout.PREFERRED_SIZE, 36,
+														GroupLayout.PREFERRED_SIZE)
+												.addComponent(microphone, GroupLayout.PREFERRED_SIZE, 36,
+														GroupLayout.PREFERRED_SIZE))
+										.addGap(37).addComponent(insertExpression).addGap(6)
+										.addComponent(deleteExpression).addGap(6).addComponent(editExpression)
+										.addGap(27)
+										.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+												.addComponent(increaseFont).addComponent(decreaseFont)))
+								.addComponent(panel, GroupLayout.DEFAULT_SIZE, 476, Short.MAX_VALUE)).addGap(6)
+								.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+										.addComponent(createDictionary, GroupLayout.PREFERRED_SIZE, 15,
+												GroupLayout.PREFERRED_SIZE)
+										.addComponent(backup, GroupLayout.PREFERRED_SIZE, 15,
+												GroupLayout.PREFERRED_SIZE))
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addGroup(groupLayout
+										.createParallelGroup(Alignment.BASELINE)
+										.addComponent(delete, GroupLayout.PREFERRED_SIZE, 15,
+												GroupLayout.PREFERRED_SIZE)
+										.addComponent(restore, GroupLayout.PREFERRED_SIZE, 15,
+												GroupLayout.PREFERRED_SIZE))
+								.addGap(7)
+								.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+										.addComponent(deleteAllDictionaries, GroupLayout.PREFERRED_SIZE, 15,
+												GroupLayout.PREFERRED_SIZE)
+										.addComponent(clr, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)
+										.addComponent(message, GroupLayout.PREFERRED_SIZE, 15,
+												GroupLayout.PREFERRED_SIZE)
+										.addComponent(save, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)
+										.addComponent(languageCodeBtn, GroupLayout.PREFERRED_SIZE, 15,
+												GroupLayout.PREFERRED_SIZE))
+								.addGap(10)));
 		frame.getContentPane().setLayout(groupLayout);
 	}
 }
