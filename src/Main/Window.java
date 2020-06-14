@@ -46,7 +46,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.Dimension;
 
 public class Window {
-	private final String version = "Personal Dictionary v1.1 ";
+	private final String version = "Personal Dictionary v1.2 ";
 	private String selectedLanguage = null;
 	private JFrame frame;
 	private JTextField searchText;
@@ -506,14 +506,13 @@ public class Window {
 
 	private class VoiceInput implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			
-			System.out.println("Thread " + Thread.activeCount());
+			//System.out.println("Thread " + Thread.activeCount());
 			
 			if (viw.getSpeechRecognition() != null) {
-				System.out.println("isShowing000 " + viw.getSpeechRecognition().getFrame().isShowing());
+				//System.out.println("isShowing000 " + viw.getSpeechRecognition().getFrame().isShowing());
 				if (viw.getSpeechRecognition().getFrame().isShowing()) {
-					viw.getSpeechRecognition().getFrame().toFront();
-						System.out.println("isShowing " + viw.getSpeechRecognition().getFrame().isShowing());// Must be in front when is clicked
+					viw.getSpeechRecognition().getFrame().toFront(); // Must be in front when is clicked
+						//System.out.println("isShowing " + viw.getSpeechRecognition().getFrame().isShowing());
 				}
 				else {
 					viw.voiceInputRunning(frame, selectedLanguage, languageCode, fontSize, message);
@@ -549,8 +548,6 @@ public class Window {
 
 				if (InternetConnectionChecker.netIsAvailable()) {
 					viw.getVoiceWindowThread().start();
-					viw.setVoiceWindowThread(Thread.currentThread());
-					// System.out.println("A " + speechRecognition.getFrame().isActive());
 				} else
 					JOptionPane.showMessageDialog(frame, "No Internet Connection !", "Warning !",
 							JOptionPane.WARNING_MESSAGE);

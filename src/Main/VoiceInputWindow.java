@@ -27,7 +27,6 @@ public class VoiceInputWindow {
 	public void setVoiceWindowThread(Thread voiceWindowThread) {
 		this.voiceWindowThread = voiceWindowThread;
 	}
-
 	
 	public void voiceInputRunning(JFrame frame, String selectedLanguage, String languageCode, int fontSize,
 								  JTextField message) {
@@ -44,14 +43,9 @@ public class VoiceInputWindow {
 
 		if (InternetConnectionChecker.netIsAvailable()) {
 			voiceWindowThread.start();
-			voiceWindowThread = Thread.currentThread();
 		} else
 			JOptionPane.showMessageDialog(frame, "No Internet Connection !", "Warning !",
 					JOptionPane.WARNING_MESSAGE);
-	}
-	
-	public void voiceInputWindow() {
-		
 	}
 
 }
