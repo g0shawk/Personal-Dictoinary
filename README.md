@@ -2,7 +2,7 @@
 
 - This program has been developed using the JDK SE 8, the Eclipse Window Builder, and the SQLite database. 
 
-- It uses [java-google-speech-api](https://github.com/goxr3plus/java-google-speech-api) and auxiliary packages as a Maven Dependencies for a speech recognition,  conversion text to a speech, and for a foreign language translation. These classes are available as a Maven Dependencies.
+- It uses [java-google-speech-api](https://github.com/goxr3plus/java-google-speech-api) and auxiliary packages as a Maven Dependencies for a speech recognition,  conversion text to a speech, and for a foreign language translation.
 
 - [Youtube Link](https://www.youtube.com/watch?v=JTAwhfiuNvg "Youtube Link") - you can see a short video and download this program.
 
