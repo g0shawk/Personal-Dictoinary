@@ -1,5 +1,5 @@
 # Voice
-- This package uses [Java-Google-Speech-Recognizer](https://github.com/goxr3plus/Java-Google-Speech-Recognizer "Java-Google-Speech-Recognizer") system as a Maven Dependencies.  When is used this package, the Internet connection have to be avaible, because it uses Google services for the synthesizer and recognizer. 
+- This package uses [java-google-speech-api](https://github.com/goxr3plus/java-google-speech-api) and and auxiliary packages as a Maven Dependencies.  When is used this package, the Internet connection have to be avaible, because it uses Google services for the synthesizer and recognizer. 
 
 ------------
 
