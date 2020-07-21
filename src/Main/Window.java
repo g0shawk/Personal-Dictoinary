@@ -88,7 +88,7 @@ public class Window {
 	/**
 	 * Create the application.
 	 */
-	public Window() {
+	private Window() {
 		initialize();
 	}
 
@@ -506,15 +506,14 @@ public class Window {
 
 	private class VoiceInput implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			//System.out.println("Thread " + Thread.activeCount());
-			
+			// System.out.println("Thread " + Thread.activeCount());
+
 			if (viw.getSpeechRecognition() != null) {
-				//System.out.println("isShowing000 " + viw.getSpeechRecognition().getFrame().isShowing());
 				if (viw.getSpeechRecognition().getFrame().isShowing()) {
-					viw.getSpeechRecognition().getFrame().toFront(); // Must be in front when is clicked
-						//System.out.println("isShowing " + viw.getSpeechRecognition().getFrame().isShowing());
-				}
-				else {
+
+					// Must be in front when is clicked
+					viw.getSpeechRecognition().getFrame().toFront();
+				} else {
 					viw.voiceInputRunning(frame, selectedLanguage, languageCode, fontSize, message);
 				}
 			}
@@ -535,16 +534,9 @@ public class Window {
 			}
 
 			else {
-				try {
-					viw.setSpeechRecognition(new GoogleSpeechRecognitionSimple(frame, selectedLanguage, languageCode,
-											 fontSize, message));
-					viw.setVoiceWindowThread(new Thread(viw.getSpeechRecognition()));
-
-				} catch (Exception e1) {
-					e1.printStackTrace();
-					JOptionPane.showMessageDialog(frame, "An error has occured !", "Error !",
-												  JOptionPane.ERROR_MESSAGE);
-				}
+				viw.setSpeechRecognition(
+						new GoogleSpeechRecognitionSimple(frame, selectedLanguage, languageCode, fontSize, message));
+				viw.setVoiceWindowThread(new Thread(viw.getSpeechRecognition()));
 
 				if (InternetConnectionChecker.netIsAvailable()) {
 					viw.getVoiceWindowThread().start();
@@ -557,8 +549,7 @@ public class Window {
 
 	private class LanguageCode implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			// languageCode = JOptionPane.showInputDialog(frame, "Insert the ISO 639-1
-			// language code ! ");
+
 			if (selectedLanguage == null)
 				JOptionPane.showMessageDialog(frame, "Choose the Dictionary !", "Warning !",
 						JOptionPane.WARNING_MESSAGE);
