@@ -18,6 +18,7 @@ import com.darkprograms.speech.recognizer.GSpeechDuplex;
 import com.darkprograms.speech.recognizer.GSpeechResponseListener;
 import com.darkprograms.speech.recognizer.GoogleResponse;
 
+import Assistant.Restarter;
 import Data.DataManagment;
 import Insertion.InputWindow;
 import net.sourceforge.javaflacencoder.FLACFileWriter;
@@ -28,7 +29,7 @@ import javax.swing.JScrollPane;
 
 public class GoogleSpeechRecognitionSimple implements Runnable{
 	
-	private final Microphone mic = new Microphone(FLACFileWriter.FLAC);
+	private  Microphone mic;
 	private GSpeechDuplex duplex = new GSpeechDuplex("AIzaSyBOti4mM-6x9WDnZIjIeyEU21OpBXqWBgw");
 	
 	
@@ -54,6 +55,15 @@ public class GoogleSpeechRecognitionSimple implements Runnable{
 	}
 	public  GoogleSpeechRecognitionSimple(JFrame frameParent, String selectedLanguage,String languageCode, int fontSize, 
 			JTextField message) {
+		try {
+			mic = new Microphone(FLACFileWriter.FLAC);
+		} 
+		catch(IllegalArgumentException iex) {
+			iex.printStackTrace();
+			JOptionPane.showMessageDialog(frame, "Check out the Microphone Connection !\nProgram will be restart !", "Warning !",
+					  JOptionPane.WARNING_MESSAGE);
+			Restarter.restartApplication(frameParent, message);
+		}
 		
 		scrollPane.setViewportView(response);
 		

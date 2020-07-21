@@ -542,8 +542,8 @@ public class Window {
 
 				} catch (Exception e1) {
 					e1.printStackTrace();
-					JOptionPane.showMessageDialog(frame, "Check out the Microphone Connection !", "Warning !",
-												  JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(frame, "An error has occured !", "Error !",
+												  JOptionPane.ERROR_MESSAGE);
 				}
 
 				if (InternetConnectionChecker.netIsAvailable()) {
