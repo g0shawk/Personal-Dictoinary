@@ -1,4 +1,4 @@
-# Personal Dictionary v1.0 beta
+# Personal Dictionary v1.2
 
 - This program has been developed using the JDK SE 8, the Eclipse Window Builder, and the SQLite database. 
 
