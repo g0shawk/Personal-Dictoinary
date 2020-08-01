@@ -6,7 +6,7 @@
 
 - [Youtube Link](https://www.youtube.com/watch?v=JTAwhfiuNvg "Youtube Link") - you can see a short video and download this program.
 
-![](https://user-images.githubusercontent.com/59750912/77697509-483ae280-6faf-11ea-9ad7-13bab85584d4.jpg)
+![P](https://user-images.githubusercontent.com/59750912/89105241-c1e05280-d41f-11ea-954d-e7ea8cfb5e81.jpg)
 ------------
 
 Author : Slavko Hojsak
