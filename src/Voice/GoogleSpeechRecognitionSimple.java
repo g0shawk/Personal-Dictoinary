@@ -27,7 +27,7 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JScrollPane;
 
-public class GoogleSpeechRecognitionSimple{
+public class GoogleSpeechRecognitionSimple implements Runnable{
 	
 	private  Microphone mic;
 	private GSpeechDuplex duplex = new GSpeechDuplex("AIzaSyBOti4mM-6x9WDnZIjIeyEU21OpBXqWBgw");
@@ -217,7 +217,7 @@ public class GoogleSpeechRecognitionSimple{
 			}
 	}
 	
-	public void init(){
+	public void run(){
 		motherLanguageCode = DataManagment.readCODES(selectedLanguage)[1];
 		
 		if(motherLanguageCode != null && motherLanguageCode.length() == 2)
