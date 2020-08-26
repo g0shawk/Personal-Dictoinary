@@ -36,7 +36,7 @@ public class DataManagment {
 			return null;
 	}
 
-	public static boolean connect() {
+	private static boolean connect() {
 		File dbfile=new File("");
 		String URL="jdbc:sqlite:" + dbfile.getAbsolutePath() + "\\Dictionaries.db";
 		try {
@@ -52,7 +52,7 @@ public class DataManagment {
 		}
 	}
 
-	public static boolean disconnect() {
+	private static boolean disconnect() {
 		try {
 			conn.close();
 			return true;

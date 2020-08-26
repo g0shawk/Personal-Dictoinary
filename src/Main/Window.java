@@ -67,8 +67,8 @@ public class Window {
 	private JButton microphone;
 	private String languageCode;
 	private JButton languageCodeBtn;
-	private VoiceInputWindow viw = new VoiceInputWindow();
-
+	private GoogleSpeechRecognitionSimple gsrs;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -506,15 +506,13 @@ public class Window {
 
 	private class VoiceInput implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			// System.out.println("Thread " + Thread.activeCount());
-
-			if (viw.getSpeechRecognition() != null) {
-				if (viw.getSpeechRecognition().getFrame().isShowing()) {
+			if (gsrs != null) {
+				if (gsrs.getFrame().isShowing()) {
 
 					// Must be in front when is clicked
-					viw.getSpeechRecognition().getFrame().toFront();
+					gsrs.getFrame().toFront();
 				} else {
-					viw.voiceInputRunning(frame, selectedLanguage, languageCode, fontSize, message);
+					gsrs.init();
 				}
 			}
 
@@ -534,12 +532,10 @@ public class Window {
 			}
 
 			else {
-				viw.setSpeechRecognition(
-						new GoogleSpeechRecognitionSimple(frame, selectedLanguage, languageCode, fontSize, message));
-				viw.setVoiceWindowThread(new Thread(viw.getSpeechRecognition()));
+				gsrs = new GoogleSpeechRecognitionSimple(frame, selectedLanguage, languageCode, fontSize, message);
 
 				if (InternetConnectionChecker.netIsAvailable()) {
-					viw.getVoiceWindowThread().start();
+					gsrs.init();
 				} else
 					JOptionPane.showMessageDialog(frame, "No Internet Connection !", "Warning !",
 							JOptionPane.WARNING_MESSAGE);
