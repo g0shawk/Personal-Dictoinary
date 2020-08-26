@@ -36,7 +36,7 @@ public class TableAutoSizer {
 	        try {
 	            table.setRowHeight(i, height);
 	        } catch (IllegalArgumentException e) {
-	        	JOptionPane.showInternalMessageDialog(fr, "Resrarting Error !", "Error !",
+	        	JOptionPane.showInternalMessageDialog(fr, "An error has occured !", "Error !",
 						JOptionPane.ERROR_MESSAGE);
 	          }
 	    }
